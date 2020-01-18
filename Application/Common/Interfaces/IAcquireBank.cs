@@ -1,6 +1,6 @@
 namespace Application.Common.Interfaces
 {
-    public interface IBankClientFactory
+    public interface IAcquireBank
     {
         IBankClient Create(string cardNumber);
     }

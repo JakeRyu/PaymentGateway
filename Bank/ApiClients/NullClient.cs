@@ -1,7 +1,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 
-namespace BankClient
+namespace Bank.ApiClients
 {
     /// <summary>
     /// BankClientFactory uses this class when it couldn't identify a bank.

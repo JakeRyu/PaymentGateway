@@ -24,12 +24,12 @@ namespace Application.Features.Payments.Commands.CreatePayment
         public class Handler : IRequestHandler<CreatePaymentCommand>
         {
             private readonly IApplicationDbContext _context;
-            private readonly IBankClientFactory _bankClientFactory;
+            private readonly IAcquireBank _acquireBank;
 
-            public Handler(IApplicationDbContext context, IBankClientFactory bankClientFactory)
+            public Handler(IApplicationDbContext context, IAcquireBank acquireBank)
             {
                 _context = context;
-                _bankClientFactory = bankClientFactory;
+                _acquireBank = acquireBank;
             }
             
             public async Task<Unit> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
                 var amount = new Money(request.Amount, request.Currency);
 
                 // Acquire bank
-                var bankClient = _bankClientFactory.Create(request.CardNumber);
+                var bankClient = _acquireBank.Create(request.CardNumber);
                 
                 var result = bankClient.ProcessPayment(request.MerchantId.ToString(), request.CardHolderName, 
                     request.CardNumber, request.ExpiryYear, request.ExpiryMonth, amount.Amount, amount.Currency);

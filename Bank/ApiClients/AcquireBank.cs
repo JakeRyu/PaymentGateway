@@ -1,8 +1,8 @@
 using Application.Common.Interfaces;
 
-namespace BankClient
+namespace Bank.ApiClients
 {
-    public class BankClientFactory : IBankClientFactory
+    public class AcquireBank : IAcquireBank
     {
         public IBankClient Create(string cardNumber)
         {

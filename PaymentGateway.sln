@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{BFAE9C4C-A95F-4A3E-AB83-A4B309BB68D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankClient", "BankClient\BankClient.csproj", "{74202C74-C043-43CD-A79A-C3967EFB0080}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank", "Bank\Bank.csproj", "{74202C74-C043-43CD-A79A-C3967EFB0080}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
