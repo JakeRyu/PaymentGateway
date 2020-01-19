@@ -6,16 +6,16 @@ namespace Application.UnitTests.Common
 {
     public class TestFixture : IDisposable
     {
-        public readonly ApplicationDbContext Db;
+        public readonly ApplicationDbContext DbContext;
         
         public TestFixture()
         {
-            Db = ApplicationDbContextFactory.Create();
+            DbContext = ApplicationDbContextFactory.Create();
         }
         
         public void Dispose()
         {
-            ApplicationDbContextFactory.Destroy(Db);
+            ApplicationDbContextFactory.Destroy(DbContext);
         }
     }
     

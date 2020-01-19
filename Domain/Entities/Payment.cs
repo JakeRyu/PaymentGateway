@@ -11,11 +11,13 @@ namespace Domain.Entities
         public string CardNumber { get; set; }
         // public Money Amount { get; set; }
 
-        public Payment()
+        private Payment()
         {
             
         }
-        public Payment(Guid paymentId, Guid merchantId, string cardHolderName, string cardNumber, Money amount)
+        
+        //TODO: Complete parameter list
+        public Payment(Guid paymentId, Guid merchantId, string cardHolderName, string cardNumber)
         {
             PaymentId = paymentId;
             MerchantId = merchantId;

@@ -16,7 +16,7 @@ namespace Application.UnitTests.Payments
     [Collection("Application test collection")]
     public class CreatePaymentCommandTests
     {
-        private IApplicationDbContext Db { get; }
+        private IApplicationDbContext DbContext { get; }
         private static CreatePaymentCommand Command => new CreatePaymentCommand
         {
             MerchantId = Guid.NewGuid(),
@@ -31,7 +31,7 @@ namespace Application.UnitTests.Payments
 
         public CreatePaymentCommandTests(TestFixture testFixture)
         {
-            Db = testFixture.Db;
+            DbContext = testFixture.DbContext;
         }
         
         [Fact]
@@ -52,7 +52,7 @@ namespace Application.UnitTests.Payments
             acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
-            var sut = new CreatePaymentCommand.Handler(Db, acquireBankMock.Object);
+            var sut = new CreatePaymentCommand.Handler(DbContext, acquireBankMock.Object);
 
             // Act
             await sut.Handle(Command, CancellationToken.None);
@@ -81,7 +81,7 @@ namespace Application.UnitTests.Payments
             acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
-            var sut = new CreatePaymentCommand.Handler(Db, acquireBankMock.Object);
+            var sut = new CreatePaymentCommand.Handler(DbContext, acquireBankMock.Object);
             
             // Act & Assert
             await Assert.ThrowsAsync<PaymentNotAcceptedException>(() => 
@@ -106,13 +106,13 @@ namespace Application.UnitTests.Payments
             acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
-            var sut = new CreatePaymentCommand.Handler(Db, acquireBankMock.Object);
+            var sut = new CreatePaymentCommand.Handler(DbContext, acquireBankMock.Object);
 
             // Act
             await sut.Handle(Command, CancellationToken.None);
             
             // Assert
-            Assert.Equal(1, Db.Payments.Count());
+            Assert.Equal(1, DbContext.Payments.Count());
         }
     }
 }

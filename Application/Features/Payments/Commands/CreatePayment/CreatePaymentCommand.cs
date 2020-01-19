@@ -23,12 +23,12 @@ namespace Application.Features.Payments.Commands.CreatePayment
         // Having a handler inside command makes it easy to follow logic, also improve discoverability 
         public class Handler : IRequestHandler<CreatePaymentCommand>
         {
-            private readonly IApplicationDbContext _context;
+            private readonly IApplicationDbContext _dbContext;
             private readonly IAcquireBank _acquireBank;
 
-            public Handler(IApplicationDbContext context, IAcquireBank acquireBank)
+            public Handler(IApplicationDbContext dbContext, IAcquireBank acquireBank)
             {
-                _context = context;
+                _dbContext = dbContext;
                 _acquireBank = acquireBank;
             }
             
@@ -59,11 +59,11 @@ namespace Application.Features.Payments.Commands.CreatePayment
 
             private async Task StorePaymentDetails(CreatePaymentCommand request, Guid paymentId, Money amount, CancellationToken cancellationToken)
             {
-                var entity = new Payment(paymentId, request.MerchantId, request.CardHolderName, request.CardNumber, amount);
+                var entity = new Payment(paymentId, request.MerchantId, request.CardHolderName, request.CardNumber);
 
-                _context.Payments.Add(entity);
+                _dbContext.Payments.Add(entity);
                 
-                await _context.SaveChangesAsync(cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }
     }
