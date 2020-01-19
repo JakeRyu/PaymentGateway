@@ -11,7 +11,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
 {
     public class CreatePaymentCommand : IRequest
     {
-        public Guid MerchantId { get; set; }
+        public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }
         public int ExpiryMonth { get; set; }

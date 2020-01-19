@@ -13,7 +13,6 @@ namespace Application.UnitTests.Payments
     public class GetPaymentsListQueryTests
     {
         private IApplicationDbContext DbContext { get; }
-        private static Guid MerchantId => Guid.NewGuid();
 
         public GetPaymentsListQueryTests(TestFixture testFixture)
         {
@@ -26,7 +25,7 @@ namespace Application.UnitTests.Payments
             // Arrange
             var query = new GetPaymentsListQuery
             {
-                MerchantId = MerchantId
+                MerchantId = 1
             };
             var sut = new GetPaymentsListQuery.Handler(DbContext);
 

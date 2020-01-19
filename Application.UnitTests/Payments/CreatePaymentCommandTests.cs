@@ -19,7 +19,7 @@ namespace Application.UnitTests.Payments
         private IApplicationDbContext DbContext { get; }
         private static CreatePaymentCommand Command => new CreatePaymentCommand
         {
-            MerchantId = Guid.NewGuid(),
+            MerchantId = 1,
             CardHolderName = "John Smith",
             CardNumber = "1111222233334444",
             ExpiryMonth = 12,

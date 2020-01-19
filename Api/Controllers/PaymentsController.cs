@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Application.Features.Payments.Commands.CreatePayment;
+using Application.Features.Payments.Queries.GetPaymentsList;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,24 +9,27 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PaymentController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
-        private readonly ILogger<PaymentController> _logger;
+        private readonly ILogger<PaymentsController> _logger;
         private readonly IMediator _mediator;
 
-        public PaymentController(ILogger<PaymentController> logger, IMediator mediator)
+        public PaymentsController(ILogger<PaymentsController> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult> GetPayments(string merchantId)
-        // {
-        //     var vm = _mediator.Send(new GetPaymentsQuery(merchantId));
-        //
-        //     return Ok(vm);
-        // }
+        [HttpGet]
+        public async Task<IActionResult> GetPaymentsList(int merchantId)
+        {
+            var vm = _mediator.Send(new GetPaymentsListQuery
+            {
+                MerchantId = merchantId
+            });
+        
+            return Ok(vm);
+        }
         
         [HttpPost]
         public async Task<IActionResult> CreatePayment()

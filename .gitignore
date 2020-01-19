@@ -21,6 +21,9 @@
 **/.idea/**/contentModel.xml
 **/.idea/**/modules.xml
 
+# SQLite database
+**/*.db
+
 *.suo
 *.user
 .vs/
