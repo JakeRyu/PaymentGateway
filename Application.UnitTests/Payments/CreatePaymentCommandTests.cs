@@ -7,8 +7,10 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Features.Payments.Commands.CreatePayment;
 using Application.UnitTests.Common;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Persistence;
+using Shouldly;
 using Xunit;
 
 namespace Application.UnitTests.Payments
@@ -20,7 +22,7 @@ namespace Application.UnitTests.Payments
         private static CreatePaymentCommand Command => new CreatePaymentCommand
         {
             MerchantId = 1,
-            CardHolderName = "John Smith",
+            CardHolderName = "Test",
             CardNumber = "1111222233334444",
             ExpiryMonth = 12,
             ExpiryYear = 2020,
@@ -84,7 +86,7 @@ namespace Application.UnitTests.Payments
             var sut = new CreatePaymentCommand.Handler(DbContext, acquireBankMock.Object);
             
             // Act & Assert
-            await Assert.ThrowsAsync<PaymentNotAcceptedException>(() => 
+            await Should.ThrowAsync<PaymentNotAcceptedException>(() =>
                 sut.Handle(Command, CancellationToken.None));
         }
         
@@ -112,7 +114,8 @@ namespace Application.UnitTests.Payments
             await sut.Handle(Command, CancellationToken.None);
             
             // Assert
-            Assert.Equal(1, DbContext.Payments.Count());
+            var entity = await DbContext.Payments.SingleOrDefaultAsync(x => x.CardHolderName == "Test");
+            entity.ShouldNotBeNull();
         }
     }
 }
