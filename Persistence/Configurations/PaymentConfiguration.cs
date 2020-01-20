@@ -8,7 +8,7 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
-            builder.Property(x => x.PaymentId).HasColumnName("PaymentId");
+            builder.Property(x => x.Id).HasColumnName("PaymentId");
 
             builder.Property(x => x.MerchantId).HasColumnName("MerchantId");
 

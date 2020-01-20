@@ -23,7 +23,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPaymentsList(int merchantId)
         {
-            var vm = _mediator.Send(new GetPaymentsListQuery
+            var vm = await _mediator.Send(new GetPaymentsListQuery
             {
                 MerchantId = merchantId
             });

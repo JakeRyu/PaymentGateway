@@ -5,7 +5,7 @@ namespace Domain.Entities
 {
     public class Payment
     {
-        public Guid PaymentId { get; set; }
+        public Guid Id { get; set; }
         public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }
@@ -17,9 +17,9 @@ namespace Domain.Entities
         }
         
         //TODO: Complete parameter list
-        public Payment(Guid paymentId, int merchantId, string cardHolderName, string cardNumber)
+        public Payment(Guid id, int merchantId, string cardHolderName, string cardNumber)
         {
-            PaymentId = paymentId;
+            Id = id;
             MerchantId = merchantId;
             CardHolderName = cardHolderName;
             CardNumber = cardNumber;
