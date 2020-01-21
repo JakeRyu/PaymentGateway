@@ -6,9 +6,19 @@
 
 remove-module [p]sake
 
-Import-Module psake
+Import-Module psake 
 
-# Default parameter for Invoke-psake command is default.ps1
-Invoke-psake
+Invoke-psake -buildFile default.ps1 `
+			 -framework netcoreapp3.0 `
+		     -properties @{ 
+				 "buildConfiguration" = "Release"
+				 "buildPlatform" = "Any CPU"} `
+			 -parameters @{ 
+				 "solutionFile" = "PaymentGateway.sln"}
+
+Write-Host "Build exit code:" $LastExitCode
+
+# Propagating the exit code so that builds actually fail when there is a problem
+exit $LastExitCode
 
 

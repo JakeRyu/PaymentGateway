@@ -6,6 +6,7 @@
 **/.idea/**/.gitignore
 **/.idea/shelf/*
 **/.idea/dictionaries
+**/.build
 
 # Sensitive or high-churn files
 **/.idea/**/dataSources/
