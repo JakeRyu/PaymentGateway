@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Application;
 using Bank;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +34,22 @@ namespace Api
             services.AddInfrastructure(Environment.IsDevelopment());
             
             services.AddControllers();
+
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc(
+                    "PaymentGatewayOpenAPISpecification",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Payment Gateway API",
+                        Version = "1"
+                    });
+                //
+                // var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                // var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                // setupAction.IncludeXmlComments(xmlCommentsFullPath);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +62,15 @@ namespace Api
 
             app.UseHttpsRedirection();
 
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint("/swagger/PaymentGatewayOpenAPISpecification/swagger.json",
+                    "Payment Gateway API");
+                setupAction.RoutePrefix = "";
+            });
+            
             app.UseRouting();
 
             app.UseAuthorization();
