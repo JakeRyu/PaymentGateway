@@ -20,9 +20,11 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("{merchantId}")]
         public async Task<IActionResult> GetPaymentsList(int merchantId)
         {
+            _logger.LogInformation("GetPaymentList api called");
+            
             var vm = await _mediator.Send(new GetPaymentsListQuery
             {
                 MerchantId = merchantId

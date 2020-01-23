@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Features.Payments.Queries.GetPaymentsList
 {
@@ -14,10 +15,12 @@ namespace Application.Features.Payments.Queries.GetPaymentsList
         public class Handler : IRequestHandler<GetPaymentsListQuery, PaymentsListVm>
         {
             private readonly IApplicationDbContext _dbContext;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IApplicationDbContext dbContext)
+            public Handler(IApplicationDbContext dbContext, ILogger<Handler> logger)
             {
                 _dbContext = dbContext;
+                _logger = logger;
             }
             
             public async Task<PaymentsListVm> Handle(GetPaymentsListQuery request, CancellationToken cancellationToken)

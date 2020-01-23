@@ -5,10 +5,12 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.ValueObjects;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Features.Payments.Commands.CreatePayment
 {
+
     public class CreatePaymentCommand : IRequest
     {
         public int MerchantId { get; set; }
