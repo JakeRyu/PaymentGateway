@@ -25,9 +25,9 @@ namespace Application.UnitTests.Common
             dbContext.Payments.AddRange(new[]
             {
                 new Payment(1, "John Smith", "1111222233334444",
-                    05, 2022, 298, 200, "GBP"), 
+                    "05", "2022", "298", 200, "GBP"), 
                 new Payment(1, "Helen Smith", "1111222233334444",
-                    09, 2022, 312, 100, "GBP") 
+                    "09", "2022", "312", 100, "GBP") 
             });
 
             dbContext.SaveChanges();

@@ -1,27 +1,25 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
-using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.Features.Payments.Commands.CreatePayment
 {
-    public class CreatePaymentCommand : IRequest, IRequest<Guid>
+    public class CreatePaymentCommand : IRequest<int>
     {
         public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }
-        public int ExpiryMonth { get; set; }
-        public int ExpiryYear { get; set; }
-        public int Cvv { get; set; }
+        public string ExpiryMonth { get; set; }
+        public string ExpiryYear { get; set; }
+        public string Cvv { get; set; }
         public decimal Amount { get; set; }
         public string Currency { get; set; }
 
         // Having a handler inside command makes it easy to follow logic, also improve discoverability 
-        public class Handler : IRequestHandler<CreatePaymentCommand, Guid>
+        public class Handler : IRequestHandler<CreatePaymentCommand, int>
         {
             private readonly IApplicationDbContext _dbContext;
             private readonly IAcquireBank _acquireBank;
@@ -32,32 +30,25 @@ namespace Application.Features.Payments.Commands.CreatePayment
                 _acquireBank = acquireBank;
             }
             
-            public async Task<Guid> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
             {
-                //todo: Use FluentValidator to validate input
-                
-                // Money is a good candidate for ValueObject
-                // No requirement for Money to implement any logic in this simple scenario but wanted to point out that
-                // it will help, for example, sort the amount considering currency.
-                var amount = new Money(request.Amount, request.Currency);
-
                 // Acquire bank
                 var bankClient = _acquireBank.Create(request.CardNumber);
                 
-                var result = bankClient.ProcessPayment(request.MerchantId.ToString(), request.CardHolderName, 
-                    request.CardNumber, request.ExpiryYear, request.ExpiryMonth, amount.Amount, amount.Currency);
+                var result = bankClient.ProcessPayment(request.MerchantId, request.CardHolderName, 
+                    request.CardNumber, request.ExpiryYear, request.ExpiryMonth, request.Cvv, request.Amount, request.Currency);
 
                 if (result.Status != "Success")
                 {
                     throw new PaymentNotAcceptedException(result.Status);
                 }
                 
-                var paymentId = await StorePaymentDetails(request, result.PaymentId, amount, cancellationToken);
+                var paymentId = await StorePaymentDetails(request, cancellationToken);
 
                 return paymentId;
             }
 
-            private async Task<Guid> StorePaymentDetails(CreatePaymentCommand request, Guid paymentId, Money amount, CancellationToken cancellationToken)
+            private async Task<int> StorePaymentDetails(CreatePaymentCommand request, CancellationToken cancellationToken)
             {
                 var entity = new Payment(
                     request.MerchantId, 

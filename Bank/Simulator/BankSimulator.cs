@@ -6,8 +6,8 @@ namespace Bank.Simulator
 {
     public class BankSimulator : IBankClient
     {
-        public PaymentResult ProcessPayment(string merchantId, string cardHolderName, string cardNumber, int expiryYear,
-            int expiryMonth, decimal amount, string currency)
+        public PaymentResult ProcessPayment(int merchantId, string cardHolderName, string cardNumber, string expiryYear,
+            string expiryMonth, string cvv, decimal amount, string currency)
         {
             // Validation for simulation purpose
             if (cardNumber != "1111222233334444")
