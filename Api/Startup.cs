@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Api.Common;
 using Application;
 using Bank;
 using Microsoft.AspNetCore.Builder;
@@ -56,6 +57,8 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCustomExceptionHandler();
+            
             app.UseHttpsRedirection();
 
             app.UseSwagger();

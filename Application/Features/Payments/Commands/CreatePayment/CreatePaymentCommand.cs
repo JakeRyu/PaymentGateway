@@ -1,8 +1,10 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.Features.Payments.Commands.CreatePayment
@@ -40,6 +42,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
 
                 if (result.Status != "Success")
                 {
+                    // todo: _logger.LogError("Payment request was not accepted for reason: {Status}", result.Status);
                     throw new PaymentNotAcceptedException(result.Status);
                 }
                 

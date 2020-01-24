@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,23 +23,33 @@ namespace Application.Common.Behaviours
             _logger = logger;
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
+            RequestHandlerDelegate<TResponse> next)
         {
-            _timer.Start();
-
-            var response = await next();
-
-            _timer.Stop();
-
-            if (_timer.ElapsedMilliseconds > 500)
+            try
             {
-                var name = typeof(TRequest).Name;
+                _timer.Start();
 
-                _logger.LogWarning("PG Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", 
-                    name, _timer.ElapsedMilliseconds,  request);
+                var response = await next();
+
+                _timer.Stop();
+
+                if (_timer.ElapsedMilliseconds > 500)
+                {
+                    var name = typeof(TRequest).Name;
+
+                    _logger.LogWarning(
+                        "[Application Long Running] {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
+                        name, _timer.ElapsedMilliseconds, request);
+                }
+
+                return response;
             }
-
-            return response;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[Application Exception] {Message}", ex.Message);
+                throw;
+            }
         }
     }
 }

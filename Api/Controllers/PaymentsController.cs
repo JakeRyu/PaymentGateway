@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Application.Features.Payments.Commands.CreatePayment;
 using Application.Features.Payments.Queries.GetPaymentsList;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -34,9 +35,10 @@ namespace Api.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> CreatePayment()
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]public async Task<IActionResult> CreatePayment([FromBody]CreatePaymentCommand command)
         {
-            await _mediator.Send(new CreatePaymentCommand());
+            await _mediator.Send(command);
 
             return NoContent();
         }
