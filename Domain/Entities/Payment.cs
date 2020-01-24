@@ -5,25 +5,31 @@ namespace Domain.Entities
 {
     public class Payment
     {
-        public Guid Id { get; set; }
-        public int MerchantId { get; set; }
-        public string CardHolderName { get; set; }
-        public string CardNumber { get; set; }
-        // public Money Amount { get; set; }
+        public Guid Id { get; private set; }
+        public int MerchantId { get; private set; }
+        public string CardHolderName { get; private set; }
+        public string CardNumber { get; private set; }
+        public int ExpiryMonth { get; private set; }
+        public int ExpiryYear { get; private set; }
+        public int Cvv { get; private set; }
+        public decimal Amount { get; private set; }
+        public string Currency { get; private set; }
 
-        private Payment()
+        public Payment()
         {
-            
         }
-        
-        //TODO: Complete parameter list
-        public Payment(Guid id, int merchantId, string cardHolderName, string cardNumber)
+
+        public Payment(int merchantId, string cardHolderName, string cardNumber, int expiryMonth, 
+            int expiryYear, int cvv, decimal amount, string currency)
         {
-            Id = id;
             MerchantId = merchantId;
             CardHolderName = cardHolderName;
             CardNumber = cardNumber;
-            // Amount = amount;
+            ExpiryMonth = expiryMonth;
+            ExpiryYear = expiryYear;
+            Cvv = cvv;
+            Amount = amount;
+            Currency = currency;
         }
     }
 }

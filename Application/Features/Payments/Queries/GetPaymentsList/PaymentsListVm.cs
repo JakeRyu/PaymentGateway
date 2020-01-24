@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Domain.Entities;
+using AutoMapper;
 
 namespace Application.Features.Payments.Queries.GetPaymentsList
 {
     public class PaymentsListVm
     {
-        public IList<Payment> Payments { get; set; }
+        public IList<PaymentDto> Payments { get; set; }
     }
 }

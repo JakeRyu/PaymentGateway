@@ -5,13 +5,11 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.ValueObjects;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Features.Payments.Commands.CreatePayment
 {
-
-    public class CreatePaymentCommand : IRequest
+    public class CreatePaymentCommand : IRequest, IRequest<Guid>
     {
         public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
@@ -23,7 +21,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
         public string Currency { get; set; }
 
         // Having a handler inside command makes it easy to follow logic, also improve discoverability 
-        public class Handler : IRequestHandler<CreatePaymentCommand>
+        public class Handler : IRequestHandler<CreatePaymentCommand, Guid>
         {
             private readonly IApplicationDbContext _dbContext;
             private readonly IAcquireBank _acquireBank;
@@ -34,7 +32,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
                 _acquireBank = acquireBank;
             }
             
-            public async Task<Unit> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+            public async Task<Guid> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
             {
                 //todo: Use FluentValidator to validate input
                 
@@ -54,18 +52,28 @@ namespace Application.Features.Payments.Commands.CreatePayment
                     throw new PaymentNotAcceptedException(result.Status);
                 }
                 
-                await StorePaymentDetails(request, result.PaymentId, amount, cancellationToken);
+                var paymentId = await StorePaymentDetails(request, result.PaymentId, amount, cancellationToken);
 
-                return Unit.Value;
+                return paymentId;
             }
 
-            private async Task StorePaymentDetails(CreatePaymentCommand request, Guid paymentId, Money amount, CancellationToken cancellationToken)
+            private async Task<Guid> StorePaymentDetails(CreatePaymentCommand request, Guid paymentId, Money amount, CancellationToken cancellationToken)
             {
-                var entity = new Payment(paymentId, request.MerchantId, request.CardHolderName, request.CardNumber);
+                var entity = new Payment(
+                    request.MerchantId, 
+                    request.CardHolderName, 
+                    request.CardNumber,
+                    request.ExpiryMonth,
+                    request.ExpiryYear,
+                    request.Cvv,
+                    request.Amount,
+                    request.Currency);
 
                 _dbContext.Payments.Add(entity);
                 
                 await _dbContext.SaveChangesAsync(cancellationToken);
+
+                return entity.Id;
             }
         }
     }
