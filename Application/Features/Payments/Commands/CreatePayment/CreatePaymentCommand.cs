@@ -6,6 +6,7 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.ValueObjects;
 using MediatR;
+using Serilog;
 
 namespace Application.Features.Payments.Commands.CreatePayment
 {
@@ -25,6 +26,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
         {
             private readonly IApplicationDbContext _dbContext;
             private readonly IAcquireBank _acquireBank;
+            private static readonly ILogger _logger = Log.Logger;
 
             public Handler(IApplicationDbContext dbContext, IAcquireBank acquireBank)
             {
@@ -42,7 +44,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
 
                 if (result.Status != "Success")
                 {
-                    // todo: _logger.LogError("Payment request was not accepted for reason: {Status}", result.Status);
+                    _logger.Error("Payment request was not accepted for reason: {Status}", result.Status);
                     throw new PaymentNotAcceptedException(result.Status);
                 }
                 

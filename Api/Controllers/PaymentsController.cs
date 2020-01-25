@@ -4,7 +4,7 @@ using Application.Features.Payments.Queries.GetPaymentsList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Api.Controllers
 {
@@ -12,19 +12,18 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class PaymentsController : ControllerBase
     {
-        private readonly ILogger<PaymentsController> _logger;
+        private static readonly ILogger _logger = Log.Logger;
         private readonly IMediator _mediator;
 
-        public PaymentsController(ILogger<PaymentsController> logger, IMediator mediator)
+        public PaymentsController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
         [HttpGet("{merchantId}")]
         public async Task<IActionResult> GetPaymentsList(int merchantId)
         {
-            _logger.LogInformation("GetPaymentList api called");
+            _logger.Debug("[API] Get payments list by merchant id: {Merchant}", merchantId);
             
             var vm = await _mediator.Send(new GetPaymentsListQuery
             {
@@ -38,6 +37,8 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]public async Task<IActionResult> CreatePayment([FromBody]CreatePaymentCommand command)
         {
+            _logger.Debug("[API] Create payment with {@CreatePaymentCommand}}", command);
+
             await _mediator.Send(command);
 
             return NoContent();

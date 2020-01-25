@@ -1,9 +1,7 @@
-using System;
-using System.IO;
-using System.Reflection;
 using Api.Common;
 using Application;
 using Bank;
+using Common.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +31,10 @@ namespace Api
             services.AddPersistence(Configuration);
             services.AddApplication();
             services.AddInfrastructure(Environment.IsDevelopment());
+            
+            // Logging
+            var loggingConfiguration = Configuration.GetSection("Logging").Get<LoggingConfiguration>();
+            SerilogInitialiser.Initialise(loggingConfiguration, Environment.IsDevelopment());
             
             services.AddControllers();
 

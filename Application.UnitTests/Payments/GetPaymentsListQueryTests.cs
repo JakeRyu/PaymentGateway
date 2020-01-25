@@ -32,7 +32,7 @@ namespace Application.UnitTests.Payments
             {
                 MerchantId = 1
             };
-            var sut = new GetPaymentsListQuery.Handler(DbContext, loggerMock.Object, Mapper);
+            var sut = new GetPaymentsListQuery.Handler(DbContext, Mapper);
 
             // Act
             var result = await sut.Handle(query, CancellationToken.None);

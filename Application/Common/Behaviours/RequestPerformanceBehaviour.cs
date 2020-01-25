@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Application.Common.Behaviours
 {
@@ -15,12 +15,11 @@ namespace Application.Common.Behaviours
     public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly Stopwatch _timer;
-        private readonly ILogger<TRequest> _logger;
+        private static readonly ILogger _logger = Log.Logger;
 
-        public RequestPerformanceBehaviour(ILogger<TRequest> logger)
+        public RequestPerformanceBehaviour()
         {
             _timer = new Stopwatch();
-            _logger = logger;
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
@@ -38,8 +37,8 @@ namespace Application.Common.Behaviours
                 {
                     var name = typeof(TRequest).Name;
 
-                    _logger.LogWarning(
-                        "[Application Long Running] {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
+                    _logger.Warning(
+                        "[Request Performance] {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
                         name, _timer.ElapsedMilliseconds, request);
                 }
 
@@ -47,7 +46,7 @@ namespace Application.Common.Behaviours
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[Application Exception] {Message}", ex.Message);
+                _logger.Error(ex, "[Application Exception] {Message}", ex.Message);
                 throw;
             }
         }

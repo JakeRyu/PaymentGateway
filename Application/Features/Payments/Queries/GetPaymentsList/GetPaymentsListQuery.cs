@@ -6,7 +6,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Application.Features.Payments.Queries.GetPaymentsList
 {
@@ -17,13 +17,12 @@ namespace Application.Features.Payments.Queries.GetPaymentsList
         public class Handler : IRequestHandler<GetPaymentsListQuery, PaymentsListVm>
         {
             private readonly IApplicationDbContext _dbContext;
-            private readonly ILogger<Handler> _logger;
             private readonly IMapper _mapper;
+            private static readonly ILogger _logger = Log.Logger;
 
-            public Handler(IApplicationDbContext dbContext, ILogger<Handler> logger, IMapper mapper)
+            public Handler(IApplicationDbContext dbContext, IMapper mapper)
             {
                 _dbContext = dbContext;
-                _logger = logger;
                 _mapper = mapper;
             }
             
