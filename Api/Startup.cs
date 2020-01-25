@@ -1,14 +1,17 @@
+using System;
 using Api.Common;
 using Application;
+using Application.Features.Payments.Commands.CreatePayment;
 using Bank;
 using Common.Logging;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
-
+using FluentValidation.AspNetCore;
 
 namespace Api
 {
@@ -35,8 +38,11 @@ namespace Api
             // Logging
             var loggingConfiguration = Configuration.GetSection("Logging").Get<LoggingConfiguration>();
             SerilogInitialiser.Initialise(loggingConfiguration, Environment.IsDevelopment());
-            
-            services.AddControllers();
+
+            // Validation
+            services.AddControllers().AddFluentValidation(config =>
+                config.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
+            );
 
             services.AddSwaggerGen(setupAction =>
             {

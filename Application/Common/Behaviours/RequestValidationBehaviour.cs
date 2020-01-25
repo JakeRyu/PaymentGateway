@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
+using Serilog;
 using ValidationException = Application.Common.Exceptions.ValidationException;
 
 namespace Application.Common.Behaviours
@@ -12,6 +13,8 @@ namespace Application.Common.Behaviours
         where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
+        private static readonly ILogger _logger = Log.Logger;
+
 
         public RequestValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
         {
