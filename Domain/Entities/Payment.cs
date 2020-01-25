@@ -5,7 +5,7 @@ namespace Domain.Entities
 {
     public class Payment
     {
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
         public int MerchantId { get; private set; }
         public string CardHolderName { get; private set; }
         public string CardNumber { get; private set; }
@@ -19,9 +19,10 @@ namespace Domain.Entities
         {
         }
 
-        public Payment(int merchantId, string cardHolderName, string cardNumber, string expiryMonth,
+        public Payment(Guid id, int merchantId, string cardHolderName, string cardNumber, string expiryMonth,
             string expiryYear, string cvv, decimal amount, string currency)
         {
+            Id = id;
             MerchantId = merchantId;
             CardHolderName = cardHolderName;
             CardNumber = cardNumber;

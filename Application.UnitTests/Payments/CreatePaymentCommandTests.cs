@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
@@ -9,7 +8,6 @@ using Application.Features.Payments.Commands.CreatePayment;
 using Application.UnitTests.Common;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using Persistence;
 using Shouldly;
 using Xunit;
 
@@ -94,6 +92,7 @@ namespace Application.UnitTests.Payments
         public async Task Handler_GivenValidRequest_ShouldStorePaymentDetails()
         {
             // Arrange
+            var paymentId = Guid.NewGuid();
             var bankClientMock = new Mock<IBankClient>();
             bankClientMock.Setup(x => x.ProcessPayment(It.IsAny<int>(), It.IsAny<string>(),
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
@@ -101,7 +100,7 @@ namespace Application.UnitTests.Payments
                 .Returns(new PaymentResult
                 {
                     Status = "Success",
-                    PaymentId = Guid.NewGuid()
+                    PaymentId = paymentId
                 });
 
             var acquireBankMock = new Mock<IAcquireBank>();
@@ -114,7 +113,7 @@ namespace Application.UnitTests.Payments
             await sut.Handle(Command, CancellationToken.None);
             
             // Assert
-            var entity = await DbContext.Payments.SingleOrDefaultAsync(x => x.CardHolderName == "Test");
+            var entity = await DbContext.Payments.SingleOrDefaultAsync(x => x.Id == paymentId);
             entity.ShouldNotBeNull();
         }
     }

@@ -10,7 +10,7 @@ using Serilog;
 
 namespace Application.Features.Payments.Commands.CreatePayment
 {
-    public class CreatePaymentCommand : IRequest<int>
+    public class CreatePaymentCommand : IRequest<Guid>
     {
         public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
@@ -22,7 +22,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
         public string Currency { get; set; }
 
         // Having a handler inside command makes it easy to follow logic, also improve discoverability 
-        public class Handler : IRequestHandler<CreatePaymentCommand, int>
+        public class Handler : IRequestHandler<CreatePaymentCommand, Guid>
         {
             private readonly IApplicationDbContext _dbContext;
             private readonly IAcquireBank _acquireBank;
@@ -34,7 +34,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
                 _acquireBank = acquireBank;
             }
             
-            public async Task<int> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+            public async Task<Guid> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
             {
                 // Acquire bank
                 var bankClient = _acquireBank.Create(request.CardNumber);
@@ -48,14 +48,15 @@ namespace Application.Features.Payments.Commands.CreatePayment
                     throw new PaymentNotAcceptedException(result.Status);
                 }
                 
-                var paymentId = await StorePaymentDetails(request, cancellationToken);
+                var paymentId = await StorePaymentDetails(request, result.PaymentId, cancellationToken);
 
                 return paymentId;
             }
 
-            private async Task<int> StorePaymentDetails(CreatePaymentCommand request, CancellationToken cancellationToken)
+            private async Task<Guid> StorePaymentDetails(CreatePaymentCommand request, Guid paymentId, CancellationToken cancellationToken)
             {
                 var entity = new Payment(
+                    paymentId,
                     request.MerchantId, 
                     request.CardHolderName, 
                     request.CardNumber,

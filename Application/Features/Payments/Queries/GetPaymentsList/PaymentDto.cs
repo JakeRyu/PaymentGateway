@@ -7,7 +7,7 @@ namespace Application.Features.Payments.Queries.GetPaymentsList
 {
     public class PaymentDto : IMapFrom<Payment>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }
