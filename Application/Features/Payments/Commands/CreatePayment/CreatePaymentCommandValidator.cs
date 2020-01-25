@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FluentValidation;
 
 namespace Application.Features.Payments.Commands.CreatePayment
@@ -8,10 +9,10 @@ namespace Application.Features.Payments.Commands.CreatePayment
         {
             RuleFor(x => x.MerchantId).NotEmpty();
             RuleFor(x => x.CardHolderName).MaximumLength(60).NotEmpty();
-            RuleFor(x => x.CardNumber).MaximumLength(20).NotEmpty();
+            RuleFor(x => x.CardNumber).CreditCard();
             RuleFor(x => x.ExpiryMonth).NotEmpty();
             RuleFor(x => x.ExpiryYear).NotEmpty();
-            RuleFor(x => x.Cvv).NotEmpty();
+            RuleFor(x => x.Cvv).Matches(@"\b[0-9]{3}\b");
             RuleFor(x => x.Amount).NotEmpty();
             RuleFor(x => x.Currency).NotEmpty();
             
