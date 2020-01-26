@@ -34,11 +34,11 @@ namespace Persistence
                 {
                     case EntityState.Added:
                         // entry.Entity.CreatedBy = _currentUserService.UserId;
-                        entry.Entity.Created = _dateTime.Now;
+                        entry.Entity.CreatedOn = _dateTime.Now;
                         break;
                     case EntityState.Modified:
                         // entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                        entry.Entity.LastModified = _dateTime.Now;
+                        entry.Entity.LastModifiedOn = _dateTime.Now;
                         break;
                 }
             }
