@@ -1,10 +1,8 @@
 using System;
 using Api.Common;
 using Application;
-using Application.Features.Payments.Commands.CreatePayment;
 using Bank;
 using Common.Logging;
-using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using FluentValidation.AspNetCore;
+using Infrastructure;
 
 namespace Api
 {
@@ -33,7 +32,8 @@ namespace Api
             // Add a layer specific dependencies
             services.AddPersistence(Configuration);
             services.AddApplication();
-            services.AddInfrastructure(Environment.IsDevelopment());
+            services.AddBank(Environment.IsDevelopment());
+            services.AddInfrastructure();
             
             // Logging
             var loggingConfiguration = Configuration.GetSection("Logging").Get<LoggingConfiguration>();

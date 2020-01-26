@@ -1,9 +1,10 @@
 using System;
+using Domain.Common;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
-    public class Payment
+    public class Payment : AuditableEntity
     {
         public Guid Id { get; private set; }
         public int MerchantId { get; private set; }

@@ -7,7 +7,7 @@ namespace Bank
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, bool isDevelopment)
+        public static IServiceCollection AddBank(this IServiceCollection services, bool isDevelopment)
         {
             if (isDevelopment)    // Bank simulator is only used in Development environment
             {

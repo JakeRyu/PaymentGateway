@@ -1,4 +1,8 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Common.DateService;
+using Domain.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,13 +10,41 @@ namespace Persistence
 {
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
+        private readonly IDateTime _dateTime;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+            : base(options)
         {
             
         }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTime dateTime)
+            : base(options)
+        {
+            _dateTime = dateTime;
+        }
         
         public DbSet<Payment> Payments { get; set; }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        // entry.Entity.CreatedBy = _currentUserService.UserId;
+                        entry.Entity.Created = _dateTime.Now;
+                        break;
+                    case EntityState.Modified:
+                        // entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                        entry.Entity.LastModified = _dateTime.Now;
+                        break;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
