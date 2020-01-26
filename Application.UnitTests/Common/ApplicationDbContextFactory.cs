@@ -25,9 +25,9 @@ namespace Application.UnitTests.Common
             dbContext.Payments.AddRange(new[]
             {
                 new Payment(Guid.NewGuid(), 1, "John Smith", "1111222233334444",
-                    "05", "298", 200, "GBP"), 
+                    "05/20", "298", 200, "GBP"), 
                 new Payment(Guid.NewGuid(),1, "Helen Smith", "1111222233334444",
-                    "09", "312", 100, "GBP") 
+                    "09/20", "312", 100, "GBP") 
             });
 
             dbContext.SaveChanges();

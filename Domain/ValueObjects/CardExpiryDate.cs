@@ -13,6 +13,12 @@ namespace Domain.ValueObjects
         {
         }
 
+        /// <summary>
+        /// Produce a card expiry date based on month and year
+        /// </summary>
+        /// <param name="expiryMonthYearString">mm/yy format</param>
+        /// <returns></returns>
+        /// <exception cref="CardExpiryDateInvalidException"></exception>
         public static CardExpiryDate For(string expiryMonthYearString)
         {
             var cardExpiryDate = new CardExpiryDate();

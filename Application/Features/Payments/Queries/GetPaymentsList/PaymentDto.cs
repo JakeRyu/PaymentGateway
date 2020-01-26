@@ -11,10 +11,17 @@ namespace Application.Features.Payments.Queries.GetPaymentsList
         public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }
-        public string ExpiryMonth { get; set; }
-        public string ExpiryYear { get; set; }
+        public string ExpiryYearMonth { get; set; }
         public string Cvv { get; set; }
         public decimal Amount { get; set; }
         public string Currency { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Payment, PaymentDto>()
+                .ForMember(dest => dest.ExpiryYearMonth,
+                    opt => opt.MapFrom(src =>
+                        src.CardExpiryDate.ToString()));
+        }
     }
 }

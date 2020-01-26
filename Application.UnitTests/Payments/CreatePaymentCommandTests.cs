@@ -22,8 +22,7 @@ namespace Application.UnitTests.Payments
             MerchantId = 1,
             CardHolderName = "Test",
             CardNumber = "1111222233334444",
-            ExpiryMonth = "12",
-            ExpiryYear = "2020",
+            ExpiryYearMonthString = "10/2020",
             Cvv = "999",
             Amount = 10,
             Currency = "GBP"
@@ -40,7 +39,7 @@ namespace Application.UnitTests.Payments
             // Arrange
             var bankClientMock = new Mock<IBankClient>();
             bankClientMock.Setup(x => x.ProcessPayment(It.IsAny<int>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
                     It.IsAny<decimal>(), It.IsAny<string>()))
                 .Returns(new PaymentResult
                 {
@@ -59,7 +58,7 @@ namespace Application.UnitTests.Payments
 
             // Assert
             bankClientMock.Verify(x => x.ProcessPayment(It.IsAny<int>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
                     It.IsAny<decimal>(), It.IsAny<string>()), 
                 Times.Once);
         }
@@ -70,7 +69,7 @@ namespace Application.UnitTests.Payments
             // Arrange
             var bankClientMock = new Mock<IBankClient>();
             bankClientMock.Setup(x => x.ProcessPayment(It.IsAny<int>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
                     It.IsAny<decimal>(), It.IsAny<string>()))
                 .Returns(new PaymentResult
                 {
@@ -95,7 +94,7 @@ namespace Application.UnitTests.Payments
             var paymentId = Guid.NewGuid();
             var bankClientMock = new Mock<IBankClient>();
             bankClientMock.Setup(x => x.ProcessPayment(It.IsAny<int>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), 
                     It.IsAny<decimal>(), It.IsAny<string>()))
                 .Returns(new PaymentResult
                 {

@@ -4,7 +4,7 @@ namespace Application.Common.Interfaces
 {
     public interface IBankClient
     {
-        PaymentResult ProcessPayment(int merchantId, string cardHolderName, string cardNumber, string expiryYear,
-            string expiryMonth, string cvv, decimal amount, string currency);
+        PaymentResult ProcessPayment(int merchantId, string cardHolderName, string cardNumber,
+            string expiryYearMonthString, string cvv, decimal amount, string currency);
     }
 }

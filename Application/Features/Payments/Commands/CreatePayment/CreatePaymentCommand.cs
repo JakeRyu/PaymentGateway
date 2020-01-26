@@ -15,8 +15,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
         public int MerchantId { get; set; }
         public string CardHolderName { get; set; }
         public string CardNumber { get; set; }
-        public string ExpiryMonth { get; set; }
-        public string ExpiryYear { get; set; }
+        public string ExpiryYearMonthString { get; set; }
         public string Cvv { get; set; }
         public decimal Amount { get; set; }
         public string Currency { get; set; }
@@ -40,7 +39,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
                 var bankClient = _acquireBank.Create(request.CardNumber);
                 
                 var result = bankClient.ProcessPayment(request.MerchantId, request.CardHolderName, 
-                    request.CardNumber, request.ExpiryYear, request.ExpiryMonth, request.Cvv, request.Amount, request.Currency);
+                    request.CardNumber, request.ExpiryYearMonthString, request.Cvv, request.Amount, request.Currency);
 
                 if (result.Status != "Success")
                 {
@@ -60,7 +59,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
                     request.MerchantId, 
                     request.CardHolderName, 
                     request.CardNumber,
-                    request.ExpiryMonth,
+                    request.ExpiryYearMonthString,
                     request.Cvv,
                     request.Amount,
                     request.Currency);
