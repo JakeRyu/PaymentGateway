@@ -5,6 +5,9 @@ using AutoMapper;
 
 namespace Application.Common.Mappings
 {
+    /// <summary>
+    /// Create mappings for classes which implement IMapFrom<T>.
+    /// </summary>
     public class MappingProfile : Profile
     {
         public MappingProfile()

@@ -20,8 +20,14 @@ namespace Application.Features.Payments.Queries.GetPaymentsList
         {
             profile.CreateMap<Payment, PaymentDto>()
                 .ForMember(dest => dest.ExpiryYearMonth,
-                    opt => opt.MapFrom(src =>
-                        src.CardExpiryDate.ToString()));
+                    opt => opt.MapFrom(
+                        src => src.CardExpiryDate.ToString()))
+                .ForMember(dest => dest.Amount,
+                    opt => opt.MapFrom(
+                        src => src.Money.Amount))
+                .ForMember(dest => dest.Currency,
+                    opt => opt.MapFrom(
+                        src => src.Money.Currency));
         }
     }
 }

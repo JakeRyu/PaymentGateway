@@ -11,8 +11,7 @@ namespace Domain.Entities
         public string CardNumber { get; private set; }
         public CardExpiryDate CardExpiryDate { get; private set; }    // Value object
         public string Cvv { get; private set; }
-        public decimal Amount { get; private set; }
-        public string Currency { get; private set; }
+        public Money Money { get; private set; }    // Value object
 
         public Payment()
         {
@@ -26,8 +25,7 @@ namespace Domain.Entities
             CardNumber = cardNumber;
             CardExpiryDate = CardExpiryDate.For(expiryYearMonthString);
             Cvv = cvv;
-            Amount = amount;
-            Currency = currency;
+            Money = new Money(amount, currency);
         }
     }
 }
