@@ -10,7 +10,9 @@ namespace Application.Features.Payments.Commands.CreatePayment
             RuleFor(x => x.MerchantId).NotEmpty();
             RuleFor(x => x.CardHolderName).MaximumLength(60).NotEmpty();
             RuleFor(x => x.CardNumber).CreditCard();
+            // todo: 01 - 12 number
             RuleFor(x => x.ExpiryMonth).NotEmpty();
+            // todo: two digit number
             RuleFor(x => x.ExpiryYear).NotEmpty();
             RuleFor(x => x.Cvv).Matches(@"\b[0-9]{3}\b");
             RuleFor(x => x.Amount).NotEmpty();

@@ -9,8 +9,7 @@ namespace Domain.Entities
         public int MerchantId { get; private set; }
         public string CardHolderName { get; private set; }
         public string CardNumber { get; private set; }
-        public string ExpiryMonth { get; private set; }
-        public string ExpiryYear { get; private set; }
+        public CardExpiryDate CardExpiryDate { get; private set; }    // Value object
         public string Cvv { get; private set; }
         public decimal Amount { get; private set; }
         public string Currency { get; private set; }
@@ -19,15 +18,13 @@ namespace Domain.Entities
         {
         }
 
-        public Payment(Guid id, int merchantId, string cardHolderName, string cardNumber, string expiryMonth,
-            string expiryYear, string cvv, decimal amount, string currency)
+        public Payment(Guid id, int merchantId, string cardHolderName, string cardNumber, string expiryYearMonthString, string cvv, decimal amount, string currency)
         {
             Id = id;
             MerchantId = merchantId;
             CardHolderName = cardHolderName;
             CardNumber = cardNumber;
-            ExpiryMonth = expiryMonth;
-            ExpiryYear = expiryYear;
+            CardExpiryDate = CardExpiryDate.For(expiryYearMonthString);
             Cvv = cvv;
             Amount = amount;
             Currency = currency;

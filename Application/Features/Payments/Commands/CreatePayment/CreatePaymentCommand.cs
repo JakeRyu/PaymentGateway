@@ -61,7 +61,6 @@ namespace Application.Features.Payments.Commands.CreatePayment
                     request.CardHolderName, 
                     request.CardNumber,
                     request.ExpiryMonth,
-                    request.ExpiryYear,
                     request.Cvv,
                     request.Amount,
                     request.Currency);
