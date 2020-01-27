@@ -25,6 +25,9 @@
 # SQLite database
 **/*.db
 
+# Key
+**/*.rsa
+
 *.suo
 *.user
 .vs/
