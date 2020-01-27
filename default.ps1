@@ -1,9 +1,4 @@
 properties {
-  	$cleanMessage = 'Executed Clean!'
-    $testMessage = 'Executed Test!'
-    $migrationMessage = 'Executed Migration!'
-    $runMessage = 'Executed Run!'
-    
     $solutionDirectory = (Get-Item $solutionFile).DirectoryName
     $outputDirectory= "$solutionDirectory/.build"
     $temporaryOutputDirectory = "$outputDirectory/temp"
@@ -11,9 +6,10 @@ properties {
     $buildPlatform = "Any CPU"
 
     $connectionString = "Data Source=$solutionDirectory/PaymentGateway.db"
-    $assemblyPath = "$temporaryOutputDirectory/DbMigration.dll"
+    $migrationAssembly = "$temporaryOutputDirectory/DbMigration.dll"
 
-    $projectToRun = "$solutionDirectory/Api/Api.csproj"
+    $apiProject = "$solutionDirectory/Api/Api.csproj"
+    $identityServerProject = "$solutionDirectory/IdentityServer/IdentityServer.csproj"
 }
 
 FormatTaskName "`r`n`r`n-------- Executing {0} Task --------"
@@ -58,23 +54,25 @@ task Compile `
 
 task Migrate -depends Compile -description "Run database migration" {
     Exec {
-        dotnet fm migrate -p sqlite -c $connectionString -a $assemblyPath
+        dotnet fm migrate -p sqlite -c $connectionString -a $migrationAssembly
     }
-    Write-Host $migrationMessage
+    Write-Host "Excuted data migration"
 }
 
-task Clean -description "Remove temporary files" { 
-  	Write-Host $cleanMessage
+task Test -depends Migrate -description "Run unit tests" { 
+  	Write-Host "All tests passed"
 }
 
-task Test -depends Migrate, Clean -description "Run unit tests" { 
-  	Write-Host $testMessage
-}
-
-task Run -depends Test -description "Run API" {
-    Write-Host $projectToRun
+task IdentityServer -description "Run Identity Server" {
     Exec {
-        dotnet run --project $projectToRun
+        dotnet run --no-build --project $identityServerProject
     }
-  	Write-Host $runMessage
+    Write-Host "Identity server running..."
+}
+
+task Run -depends Test, IdentityServer -description "Run API" {
+    Exec {
+        dotnet run --no-build --project $apiProject
+    }
+  	Write-Host "Api running..."
 }
