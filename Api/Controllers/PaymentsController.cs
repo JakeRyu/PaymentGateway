@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Application.Features.Payments.Commands.CreatePayment;
 using Application.Features.Payments.Queries.GetPaymentsList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -10,6 +11,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class PaymentsController : ControllerBase
     {
         private static readonly ILogger _logger = Log.Logger;

@@ -44,6 +44,16 @@ namespace Api
                 config.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
             );
 
+            // Authentication to use IdentityServer
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:4000";
+                    options.RequireHttpsMetadata = false;
+
+                    options.Audience = "payment-gateway";
+                });
+
             services.AddSwaggerGen(setupAction =>
             {
                 setupAction.SwaggerDoc(
@@ -80,6 +90,7 @@ namespace Api
             
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
