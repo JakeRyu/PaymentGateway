@@ -27,7 +27,10 @@ namespace Application.Features.Payments.Queries.GetPaymentsList
                         src => src.Money.Amount))
                 .ForMember(dest => dest.Currency,
                     opt => opt.MapFrom(
-                        src => src.Money.Currency));
+                        src => src.Money.Currency))
+                .ForMember(dest => dest.CardNumber,
+                    opt => opt.MapFrom(
+                        src => src.CardNumber.Value));    // assign masked value
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Domain.UnitTests
         }
 
         [Fact]
-        public void CardExpiryDate_ShouldConvertingToStringImplicitly()
+        public void CardExpiryDate_ShouldConvertToStringImplicitly()
         {
             var expiryYearMonthString = "01/20";
             var sut = CardExpiryDate.For(expiryYearMonthString);

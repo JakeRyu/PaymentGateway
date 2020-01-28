@@ -9,7 +9,7 @@ namespace Domain.Entities
         public Guid Id { get; private set; }
         public int MerchantId { get; private set; }
         public string CardHolderName { get; private set; }
-        public string CardNumber { get; private set; }
+        public MaskedString CardNumber { get; private set; }
         public CardExpiryDate CardExpiryDate { get; private set; }    // Value object
         public string Cvv { get; private set; }
         public Money Money { get; private set; }    // Value object
@@ -23,7 +23,7 @@ namespace Domain.Entities
             Id = id;
             MerchantId = merchantId;
             CardHolderName = cardHolderName;
-            CardNumber = cardNumber;
+            CardNumber = MaskedString.For(cardNumber);
             CardExpiryDate = CardExpiryDate.For(expiryYearMonthString);
             Cvv = cvv;
             Money = new Money(amount, currency);

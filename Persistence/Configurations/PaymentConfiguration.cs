@@ -24,6 +24,12 @@ using Microsoft.EntityFrameworkCore;
                        owned.Property(p => p.Amount).HasColumnName("Amount");
                        owned.Property(p => p.Currency).HasColumnName("Currency");
                    });
+
+               builder.OwnsOne(x => x.CardNumber,
+                   owned =>
+                   {
+                       owned.Property(p => p.OriginalValue).HasColumnName("CardNumber");
+                   });
            }
        }
    }
