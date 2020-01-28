@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Application.Features.Payments.Queries.GetPaymentDetails;
 using Application.Features.Payments.Queries.GetPaymentsList;
 using Application.UnitTests.Common;
 using AutoMapper;
@@ -10,34 +11,30 @@ using Xunit;
 namespace Application.UnitTests.Payments
 {
     [Collection("Application test collection")]
-    public class GetPaymentsListQueryTests
+    public class GetPaymentDetailsTests
     {
         private IApplicationDbContext DbContext { get; }
         private IMapper Mapper { get; }
 
-        public GetPaymentsListQueryTests(TestFixture testFixture)
+        public GetPaymentDetailsTests(TestFixture testFixture)
         {
             DbContext = testFixture.DbContext;
             Mapper = testFixture.Mapper;
         }
 
         [Fact]
-        public async Task Handler_GivenValidRequest_ShouldReturnPaymentsList()
+        public async Task Handler_GivenValidRequest_ShouldReturnPaymentDetails()
         {
-            // Arrange
-            var query = new GetPaymentsListQuery
+            var query = new GetPaymentDetailsQuery
             {
-                MerchantId = 1
+                PaymentId = Constants.Sample1
             };
-            var sut = new GetPaymentsListQuery.Handler(DbContext, Mapper);
+            var sut = new GetPaymentDetailsQuery.Handler(DbContext, Mapper);
 
-            // Act
             var result = await sut.Handle(query, CancellationToken.None);
-            
-            // Assert
-            result.ShouldBeOfType<PaymentsListVm>();
-            result.Payments.Count.ShouldBeGreaterThan(0);
-        }
 
+            result.ShouldBeOfType<PaymentDto>();
+            result.CardHolderName.ShouldBe("John Smith");
+        }
     }
 }

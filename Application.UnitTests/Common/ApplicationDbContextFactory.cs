@@ -29,9 +29,9 @@ namespace Application.UnitTests.Common
 
             dbContext.Payments.AddRange(new[]
             {
-                new Payment(Guid.NewGuid(), 1, "John Smith", "1111222233334444",
+                new Payment(Constants.Sample1, 1, "John Smith", "1111222233334444",
                     "05/20", "298", 200, "GBP"), 
-                new Payment(Guid.NewGuid(),1, "Helen Smith", "1111222233334444",
+                new Payment(Constants.Sample2,1, "Helen Smith", "1111222233334444",
                     "09/20", "312", 100, "GBP") 
             });
 

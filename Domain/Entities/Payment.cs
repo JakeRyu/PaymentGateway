@@ -9,7 +9,7 @@ namespace Domain.Entities
         public Guid Id { get; private set; }
         public int MerchantId { get; private set; }
         public string CardHolderName { get; private set; }
-        public MaskedString CardNumber { get; private set; }
+        public MaskedString CardNumber { get; private set; }    // Value object
         public CardExpiryDate CardExpiryDate { get; private set; }    // Value object
         public string Cvv { get; private set; }
         public Money Money { get; private set; }    // Value object

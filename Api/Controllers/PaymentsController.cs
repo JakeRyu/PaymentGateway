@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using Application.Features.Payments.Commands.CreatePayment;
+using Application.Features.Payments.Queries.GetPaymentDetails;
 using Application.Features.Payments.Queries.GetPaymentsList;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,16 +24,34 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{merchantId}")]
-        public async Task<IActionResult> GetPaymentsList(int merchantId)
+        [HttpGet("merchants/{merchantId}")]
+        public async Task<IActionResult> GetPaymentsListByMerchant(int merchantId)
         {
-            _logger.Debug("[API] Get payments list by merchant id: {Merchant}", merchantId);
+            _logger.Debug("[API] Get payments list by merchant id: {MerchantId}", merchantId);
             
             var vm = await _mediator.Send(new GetPaymentsListQuery
             {
                 MerchantId = merchantId
             });
         
+            return Ok(vm);
+        }
+
+        [HttpGet("{paymentId}")]
+        public async Task<IActionResult> GetPayment(Guid paymentId)
+        {
+            _logger.Debug("[API] Get payment details for {PaymentId}", paymentId);
+
+            var vm = await _mediator.Send(new GetPaymentDetailsQuery
+            {
+                PaymentId = paymentId
+            });
+
+            if (vm == null)
+            {
+                return NotFound();
+            }
+
             return Ok(vm);
         }
         
