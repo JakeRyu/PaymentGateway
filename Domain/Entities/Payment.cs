@@ -23,7 +23,7 @@ namespace Domain.Entities
             Id = id;
             MerchantId = merchantId;
             CardHolderName = cardHolderName;
-            CardNumber = MaskedString.For(cardNumber);
+            CardNumber = new MaskedString(cardNumber);
             CardExpiryDate = CardExpiryDate.For(expiryYearMonthString);
             Cvv = cvv;
             Money = new Money(amount, currency);

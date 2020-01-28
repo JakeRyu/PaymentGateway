@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
            public void Configure(EntityTypeBuilder<Payment> builder)
            {
                builder.Property(x => x.CardHolderName).HasMaxLength(60);
-               builder.Property(x => x.CardNumber).HasMaxLength(20);
+               // builder.Property(x => x.CardNumber).HasMaxLength(20);
                builder.Property(x => x.Cvv).HasMaxLength(3);
                
                builder.OwnsOne(x => x.CardExpiryDate,
@@ -29,6 +29,7 @@ using Microsoft.EntityFrameworkCore;
                    owned =>
                    {
                        owned.Property(p => p.OriginalValue).HasColumnName("CardNumber");
+                       owned.Ignore(p => p.Value);
                    });
            }
        }
