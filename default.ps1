@@ -63,14 +63,7 @@ task Test -depends Migrate -description "Run unit tests" { 
   	Write-Host "All tests passed"
 }
 
-task IdentityServer -description "Run Identity Server" {
-    Exec {
-        dotnet run --no-build --project $identityServerProject
-    }
-    Write-Host "Identity server running..."
-}
-
-task Run -depends Test, IdentityServer -description "Run API" {
+task Run -depends Test -description "Run API" {
     Exec {
         dotnet run --no-build --project $apiProject
     }
