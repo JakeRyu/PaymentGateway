@@ -12,12 +12,6 @@ namespace Persistence
     {
         private readonly IDateTime _dateTime;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-            
-        }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTime dateTime)
             : base(options)
         {

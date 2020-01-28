@@ -1,7 +1,9 @@
 using System;
+using Common.DateService;
 using Domain.Entities;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Persistence;
 
 namespace Application.UnitTests.Common
@@ -18,8 +20,11 @@ namespace Application.UnitTests.Common
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlite(_connection)
                 .Options;
+
+            var dateTimeMock = new Mock<IDateTime>();
+            dateTimeMock.Setup(x => x.Now).Returns(DateTime.Now);
             
-            var dbContext = new ApplicationDbContext(options);
+            var dbContext = new ApplicationDbContext(options, dateTimeMock.Object);
             dbContext.Database.EnsureCreated();
 
             dbContext.Payments.AddRange(new[]
