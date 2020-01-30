@@ -23,7 +23,7 @@ namespace Common.Logging
             {
                 if (!string.IsNullOrEmpty(loggingConfig.LogEntriesToken))
                 {
-                    // Configure a live log management tool such as 'Logentries' for example
+                    // Configure a live log management tool such as 'Kibana' for example
                     // -- Example --
                     // loggerConfiguration = loggerConfiguration
                     //         .MinimumLevel.Is(logConfig.LogLevel)
