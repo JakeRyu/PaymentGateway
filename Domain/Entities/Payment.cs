@@ -14,6 +14,7 @@ namespace Domain.Entities
         public string Cvv { get; private set; }
         public Money Money { get; private set; }    // Value object
 
+        
         public Payment()
         {
         }

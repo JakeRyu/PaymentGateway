@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using Domain.Common;
 using Domain.Exceptions;
+using Serilog;
 
 namespace Domain.ValueObjects
 {
     public class CardExpiryDate : ValueObject
     {
+        private static readonly ILogger _logger = Log.Logger;
         public DateTime Date { get; private set; }
 
         private CardExpiryDate()
@@ -35,6 +37,9 @@ namespace Domain.ValueObjects
 
                 var firstDayOfMonth = new DateTime(fourDigitYear, month, 1);
                 cardExpiryDate.Date = firstDayOfMonth.AddMonths(1).AddDays(-1);
+                
+                _logger.Debug("Card expiry date {Date} converted from '{String}'", 
+                    cardExpiryDate.Date.ToShortDateString(), expiryMonthYearString);
             }
             catch(Exception ex)
             {
