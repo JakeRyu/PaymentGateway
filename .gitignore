@@ -25,6 +25,9 @@
 # SQLite database
 **/*.db
 
+# Log
+**/logs/*.txt
+
 # Key
 **/*.rsa
 

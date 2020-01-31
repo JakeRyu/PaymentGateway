@@ -14,7 +14,7 @@ properties {
 
 FormatTaskName "`r`n`r`n-------- Executing {0} Task --------"
 
-task default -depends Run
+task default -depends Test
 
 task Init `
   -description "Initialises the build by removing previous artifacts and creating output directories" `
@@ -61,11 +61,4 @@ task Migrate -depends Compile -description "Run database migration" {
 
 task Test -depends Migrate -description "Run unit tests" { 
   	Write-Host "All tests passed"
-}
-
-task Run -depends Test -description "Run API" {
-    Exec {
-        dotnet run --no-build --project $apiProject
-    }
-  	Write-Host "Api running..."
 }

@@ -11,11 +11,11 @@ namespace Bank
         {
             if (isDevelopment)    // Bank simulator is only used in Development environment
             {
-                services.AddScoped<IAcquireBank, AcquireBankSimulator>();
+                services.AddScoped<IBankClientFactory, BankClientFactorySimulator>();
             }
             else
             {
-                services.AddScoped<IAcquireBank, AcquireBank>();
+                services.AddScoped<IBankClientFactory, BankClientFactory>();
             }
 
             return services;

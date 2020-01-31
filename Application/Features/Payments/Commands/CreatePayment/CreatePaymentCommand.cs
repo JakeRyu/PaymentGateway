@@ -24,19 +24,19 @@ namespace Application.Features.Payments.Commands.CreatePayment
         public class Handler : IRequestHandler<CreatePaymentCommand, Guid>
         {
             private readonly IApplicationDbContext _dbContext;
-            private readonly IAcquireBank _acquireBank;
+            private readonly IBankClientFactory _bankClientFactory;
             private static readonly ILogger _logger = Log.Logger;
 
-            public Handler(IApplicationDbContext dbContext, IAcquireBank acquireBank)
+            public Handler(IApplicationDbContext dbContext, IBankClientFactory bankClientFactory)
             {
                 _dbContext = dbContext;
-                _acquireBank = acquireBank;
+                _bankClientFactory = bankClientFactory;
             }
             
             public async Task<Guid> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
             {
                 // Acquire bank
-                var bankClient = _acquireBank.Create(request.CardNumber);
+                var bankClient = _bankClientFactory.Create(request.CardNumber);
                 
                 var result = bankClient.ProcessPayment(request.MerchantId, request.CardHolderName, 
                     request.CardNumber, request.ExpiryYearMonthString, request.Cvv, request.Amount, request.Currency);
@@ -47,12 +47,12 @@ namespace Application.Features.Payments.Commands.CreatePayment
                     throw new PaymentNotAcceptedException(result.Status);
                 }
                 
-                var paymentId = await StorePaymentDetails(request, result.PaymentId, cancellationToken);
+                var paymentId = await SavePaymentDetails(request, result.PaymentId, cancellationToken);
 
                 return paymentId;
             }
 
-            private async Task<Guid> StorePaymentDetails(CreatePaymentCommand request, Guid paymentId, CancellationToken cancellationToken)
+            private async Task<Guid> SavePaymentDetails(CreatePaymentCommand request, Guid paymentId, CancellationToken cancellationToken)
             {
                 var entity = new Payment(
                     paymentId,

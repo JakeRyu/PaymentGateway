@@ -13,7 +13,7 @@ namespace Common.Logging
 
             if (isDevelopment)
             {
-                var logLocation = $"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}/{loggingConfig.LogFilePath}";
+                var logLocation = $"{loggingConfig.LogFilePath}";
                 loggerConfiguration = loggerConfiguration
                     .MinimumLevel.Is(loggingConfig.LogLevel)
                     .WriteTo.Console()

@@ -47,7 +47,7 @@ namespace Application.UnitTests.Payments
                     PaymentId = Guid.NewGuid()
                 });
 
-            var acquireBankMock = new Mock<IAcquireBank>();
+            var acquireBankMock = new Mock<IBankClientFactory>();
             acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
@@ -76,7 +76,7 @@ namespace Application.UnitTests.Payments
                     Status = "Card number invalid"
                 });
             
-            var acquireBankMock = new Mock<IAcquireBank>();
+            var acquireBankMock = new Mock<IBankClientFactory>();
             acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
@@ -102,7 +102,7 @@ namespace Application.UnitTests.Payments
                     PaymentId = paymentId
                 });
 
-            var acquireBankMock = new Mock<IAcquireBank>();
+            var acquireBankMock = new Mock<IBankClientFactory>();
             acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 

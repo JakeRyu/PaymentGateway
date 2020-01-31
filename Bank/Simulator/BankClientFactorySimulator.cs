@@ -2,7 +2,7 @@ using Application.Common.Interfaces;
 
 namespace Bank.Simulator
 {
-    public class AcquireBankSimulator : IAcquireBank
+    public class BankClientFactorySimulator : IBankClientFactory
     {
         public IBankClient Create(string cardNumber)
         {

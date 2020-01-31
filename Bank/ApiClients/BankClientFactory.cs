@@ -2,7 +2,7 @@ using Application.Common.Interfaces;
 
 namespace Bank.ApiClients
 {
-    public class AcquireBank : IAcquireBank
+    public class BankClientFactory : IBankClientFactory
     {
         public IBankClient Create(string cardNumber)
         {
