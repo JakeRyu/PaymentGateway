@@ -6,5 +6,5 @@ While Command Query Responsibility Segregation adds complexity on your model it 
 
 # Dependency flow
 
-![Project dependency flow][Documents/dependency-flow.png]
+![Project dependency flow](Documents/dependency-flow.png)
 
