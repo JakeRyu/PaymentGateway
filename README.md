@@ -1,6 +1,6 @@
 # How to run Payment Gateway
 
-#### Payment Gateway Set-up
+### Payment Gateway Set-up
 The target framework is netcoreapp3.0. To run the solution,  download and install .NET Core SDK v3.0.0 or later at https://dotnet.microsoft.com/download/dotnet-core/3.0
 
 PowerShell is required to run a build script which compiles the solution, migrate the database, and run tests.
@@ -13,14 +13,14 @@ PowerShell is required to run a build script which compiles the solution, migrat
 
 Note: If run into a permission error like "Can't write to SQLite ...", make sure the terminal is run as Admin privilege.
 
-####Give it a go
+### Give it a go
 Use sample request 
 
 # Dependency rules in the architecture
 The model of the solution is based on Clean Architecture and CQRS. 
 The concentric circles in [Figure 1] represent different areas of software. The inner circles are policies; the outer circles are mechanism. The further in you go, the higher level the software becomes, in general.
 
-[Figure 1] - Arrows across layers represent dependency flow
+[Figure 1]
 
 ![dependency flow](Documents/dependency-flow.png)
 
@@ -53,23 +53,23 @@ Note that Handler works with interfaces.
 
 Looking at arrows indicating the use of interfaces, nothing in Application knows anything about something in an outside world except Domain.
 
-#Solution Architecture
+# Solution Architecture
 
 [Figure 4]
 
 ![dependency flow](Documents/solution-architecture.png)
 
-| Project        | Description           |
-| ------------- |-------------|
-| ApiClient     | A test tool to demonstrate how to get a bearer token form IdentityServer and use it to call API |
-| Api     | Payment gateway API      |
-| Infrastructure | Has MachineDateTime implementation of IDateTime from Common project     |
-| Bank | Collection of bank clients. Bank simulator mocks a bank for the sake of test |
-| DbMigration | Control database schema explicitly. Run by a build script |
-| IdentityServer | Issue a bearer token to secure API |
-| Persistence |  |
-| Application |  |
-| Domain |  |
-| Common |  |
+| Project        | Description           | Project Dependencies |
+| ------------- |-------------|-------------|
+| ApiClient     | A test tool to demonstrate how to get a bearer token form IdentityServer and use it to call API | - |
+| Api     | Payment gateway API      | Application, Bank, Common, Infrastructure, Persistence |
+| Infrastructure | Has MachineDateTime implementation of IDateTime from Common project     | Application, Common |
+| Bank | Collection of bank clients. Bank simulator mocks a bank for the sake of test | Application |
+| DbMigration | Control database schema explicitly / Run by a build script | - |
+| IdentityServer | Issue a bearer token to secure API | - |
+| Persistence | Operate CRUD on database | Application |
+| Application | Wrap up Domain to keep it isolated / Source of interfaces | Common, Domain |
+| Domain | Entity, value object, exception defined at enterprise level | Common |
+| Common | Cross cutting concerns like date time service, logging, etc | - |
 
 

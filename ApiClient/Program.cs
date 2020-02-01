@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 
-namespace PaymentGatewayApiCaller
+namespace ApiClient
 {
     /// <summary>
     /// Test client to call the payment gateway api using a bearer token. Make sure that Api and IdentityServer are
