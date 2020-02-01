@@ -11,6 +11,8 @@ PowerShell is required to run a build script which compiles the solution, migrat
 5. Change directory to IdentityServer and execute `dotnet run` command.
 5. Visit https://localhost:5001.
 
+[todo] install psake..  --> create build project
+
 Note: If run into a permission error like "Can't write to SQLite ...", make sure the terminal is run as Admin privilege.
 
 ### Give it a go
@@ -29,8 +31,8 @@ The concentric circles in [Figure 1] represent different areas of software. The 
 By separating the software into layers and conforming to the dependency rules, a system becomes intrinsically testable.
 
 
-- Domain contains enterprise-wide reusable logic and types
-- Application contains business-logic for use cases and types
+- Domain contains entities, value objects, enterprise-wide logic and exceptions
+- Application contains interfaces to implement use case scenarios, command / queries, validators, exceptions
 - Infrastructure contains all external concerns
 - Presentation and Infrastructure depend only on Application
 - Infrastructure and Presentation components can be replaced with minimal effort
