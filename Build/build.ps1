@@ -10,7 +10,8 @@ Invoke-psake -buildFile default.ps1 `
 				 "buildConfiguration" = "Release"
 				 "buildPlatform" = "Any CPU"} `
 			 -parameters @{ 
-				 "solutionFile" = "../PaymentGateway.sln"}
+				 "solutionFile" = "../PaymentGateway.sln"
+				 "framework" = "netcoreapp3.0"}
 
 Write-Host "Build exit code:" $LastExitCode
 

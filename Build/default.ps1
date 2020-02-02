@@ -6,10 +6,12 @@ properties {
     $buildPlatform = "Any CPU"
 
     $connectionString = "Data Source=$solutionDirectory/PaymentGateway.db"
-    $migrationAssembly = "$temporaryOutputDirectory/DbMigration.dll"
+    $migrationAssembly = "$solutionDirectory/DbMigration/bin/$buildConfiguration/$framework/DbMigration.dll"
 
     $apiProject = "$solutionDirectory/Api/Api.csproj"
     $identityServerProject = "$solutionDirectory/IdentityServer/IdentityServer.csproj"
+    $applicationUnitTestsProject = "$solutionDirectory/Application.UnitTests/Application.UnitTests"
+    $domainUnitTestsProject = "$solutionDirectory/Domain.UnitTests/Domain.UnitTests"
 }
 
 FormatTaskName "`r`n`r`n-------- Executing {0} Task --------"
@@ -48,7 +50,7 @@ task Compile `
 { 
   	Write-Host "Building solution $solutionFile"
     Exec {
-        dotnet msbuild $SolutionFile "/p:Configuration=$buildConfiguration;Platform=$buildPlatform;OutDir=$temporaryOutputDirectory"
+        dotnet msbuild $solutionFile "/p:Configuration=$buildConfiguration;Platform=$buildPlatform"
     }
 }
 
@@ -60,5 +62,8 @@ task Migrate -depends Compile -description "Run database migration" {
 }
 
 task Test -depends Migrate -description "Run unit tests" { 
+    Exec {
+            dotnet test $solutionFile --no-build
+    }   
   	Write-Host "All tests passed"
 }
