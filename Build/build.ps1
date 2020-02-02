@@ -4,9 +4,16 @@
 # > Install-Module psake
 # On Windows, follow the instruction at https://github.com/psake/psake.
 
+
 remove-module [p]sake
 
-Import-Module psake 
+# For Mac
+#$psakemodule = (Get-ChildItem("~/.nuget/packages/psake/*/tools/psake/psake.psm1")).FullName | Sort-Object $_ | Select-Object -last 1
+
+# For Windows
+$psakemodule = (Get-ChildItem("%userprofile%\.nuget\packages\psake\*\tools\psake\psake.psm1")).FullName | Sort-Object $_ | Select-Object -last 1
+
+Import-Module $psakemodule 
 
 Invoke-psake -buildFile default.ps1 `
 			 -framework netcoreapp3.0 `
@@ -14,7 +21,7 @@ Invoke-psake -buildFile default.ps1 `
 				 "buildConfiguration" = "Release"
 				 "buildPlatform" = "Any CPU"} `
 			 -parameters @{ 
-				 "solutionFile" = "PaymentGateway.sln"}
+				 "solutionFile" = "../PaymentGateway.sln"}
 
 Write-Host "Build exit code:" $LastExitCode
 
