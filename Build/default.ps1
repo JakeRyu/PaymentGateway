@@ -1,7 +1,5 @@
 properties {
     $solutionDirectory = (Get-Item $solutionFile).DirectoryName
-    $outputDirectory= "$solutionDirectory/.build"
-    $temporaryOutputDirectory = "$outputDirectory/temp"
     $buildConfiguration = "Release"
     $buildPlatform = "Any CPU"
 
@@ -16,37 +14,11 @@ properties {
 
 FormatTaskName "`r`n`r`n-------- Executing {0} Task --------"
 
-task default -depends Test
-
-task Init `
-  -description "Initialises the build by removing previous artifacts and creating output directories" `
-  -requiredVariables outputDirectory, temporaryOutputDirectory `
-{
-    Assert ("Debug", "Release" -contains $buildConfiguration) `
-		   "Invalid build configuration '$buildConfiguration'. Valid values are 'Debug' or 'Release'"
-
-    Assert ("x86", "x64", "Any CPU" -contains $buildPlatform) `
-		   "Invalid build platform '$buildPlatform'. Valid values are 'x86', 'x64' or 'Any CPU'"
-
-
-    # Remove previous build results
-    if (Test-Path $outputDirectory) 
-	{
-        Write-Host "Removing output directory located at $outputDirectory"
-        Remove-Item $outputDirectory -Force -Recurse
-    }
-
-    Write-Host "Creating output directory located at $outputDirectory"
-    New-Item $outputDirectory -ItemType Directory | Out-Null
-
-    Write-Host "Creating temporary directory located at $temporaryOutputDirectory"
-    New-Item $temporaryOutputDirectory -ItemType Directory | Out-Null
-}
+task default -depends Api
 
 task Compile `
-	-depends Init `
 	-description "Compile the code" `
-	-requiredVariables solutionFile, buildConfiguration, buildPlatform, temporaryOutputDirectory `
+	-requiredVariables solutionFile, buildConfiguration, buildPlatform `
 { 
   	Write-Host "Building solution $solutionFile"
     Exec {
@@ -54,16 +26,32 @@ task Compile `
     }
 }
 
-task Migrate -depends Compile -description "Run database migration" {
+task Migrate -depends Compile `
+    -description "Run database migration" `
+    -requiredVariable connectionString, migrationAssembly `
+{
     Exec {
         dotnet fm migrate -p sqlite -c $connectionString -a $migrationAssembly
     }
     Write-Host "Excuted data migration"
 }
 
-task Test -depends Migrate -description "Run unit tests" { 
+task Test -depends Migrate `
+    -description "Run unit tests" `
+    -requiredVariable solutionFile `
+{ 
     Exec {
             dotnet test $solutionFile --no-build
     }   
   	Write-Host "All tests passed"
+}
+
+task Api -depends Test `
+    -description "Run API" `
+    -requiredVariable apiProject `
+{
+    Write-Host "Running API..."
+    Exec {
+        dotnet run --no-build --project $apiProject
+    }
 }
