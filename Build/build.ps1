@@ -11,9 +11,9 @@ remove-module [p]sake
 #$psakemodule = (Get-ChildItem("~/.nuget/packages/psake/*/tools/psake/psake.psm1")).FullName | Sort-Object $_ | Select-Object -last 1
 
 # For Windows
-$psakemodule = (Get-ChildItem("%userprofile%\.nuget\packages\psake\*\tools\psake\psake.psm1")).FullName | Sort-Object $_ | Select-Object -last 1
+#$psakemodule = (Get-ChildItem("%userprofile%\.nuget\packages\psake\*\tools\psake\psake.psm1")).FullName | Sort-Object $_ | Select-Object -last 1
 
-Import-Module $psakemodule 
+Import-Module psake #$psakemodule 
 
 Invoke-psake -buildFile default.ps1 `
 			 -framework netcoreapp3.0 `
