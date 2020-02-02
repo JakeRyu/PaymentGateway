@@ -27,6 +27,7 @@ namespace Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
+                        // todo: implement currentUserService
                         // entry.Entity.CreatedBy = _currentUserService.UserId;
                         entry.Entity.CreatedOn = _dateTime.Now;
                         break;

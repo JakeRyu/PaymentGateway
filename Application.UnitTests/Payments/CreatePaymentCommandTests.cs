@@ -47,11 +47,11 @@ namespace Application.UnitTests.Payments
                     PaymentId = Guid.NewGuid()
                 });
 
-            var acquireBankMock = new Mock<IBankClientFactory>();
-            acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
+            var bankClientFactoryMock = new Mock<IBankClientFactory>();
+            bankClientFactoryMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
-            var sut = new CreatePaymentCommand.Handler(DbContext, acquireBankMock.Object);
+            var sut = new CreatePaymentCommand.Handler(DbContext, bankClientFactoryMock.Object);
 
             // Act
             await sut.Handle(Command, CancellationToken.None);
@@ -76,11 +76,11 @@ namespace Application.UnitTests.Payments
                     Status = "Card number invalid"
                 });
             
-            var acquireBankMock = new Mock<IBankClientFactory>();
-            acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
+            var bankClientFactoryMock = new Mock<IBankClientFactory>();
+            bankClientFactoryMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
-            var sut = new CreatePaymentCommand.Handler(DbContext, acquireBankMock.Object);
+            var sut = new CreatePaymentCommand.Handler(DbContext, bankClientFactoryMock.Object);
             
             // Act & Assert
             await Should.ThrowAsync<PaymentNotAcceptedException>(() =>
@@ -102,11 +102,11 @@ namespace Application.UnitTests.Payments
                     PaymentId = paymentId
                 });
 
-            var acquireBankMock = new Mock<IBankClientFactory>();
-            acquireBankMock.Setup(x => x.Create(It.IsAny<string>()))
+            var bankClientFactoryMock = new Mock<IBankClientFactory>();
+            bankClientFactoryMock.Setup(x => x.Create(It.IsAny<string>()))
                 .Returns(bankClientMock.Object);
 
-            var sut = new CreatePaymentCommand.Handler(DbContext, acquireBankMock.Object);
+            var sut = new CreatePaymentCommand.Handler(DbContext, bankClientFactoryMock.Object);
 
             // Act
             await sut.Handle(Command, CancellationToken.None);
