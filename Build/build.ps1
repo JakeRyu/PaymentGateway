@@ -9,11 +9,12 @@ remove-module [p]sake
 
 # For Mac
 #$psakemodule = (Get-ChildItem("~/.nuget/packages/psake/*/tools/psake/psake.psm1")).FullName | Sort-Object $_ | Select-Object -last 1
-
 # For Windows
 #$psakemodule = (Get-ChildItem("%userprofile%\.nuget\packages\psake\*\tools\psake\psake.psm1")).FullName | Sort-Object $_ | Select-Object -last 1
 
-Import-Module psake #$psakemodule 
+nuget install psake -Version 4.9.0 -OutputDirectory Packages
+
+Import-Module "./Packages/psake.4.9.0/tools/psake/psake.psm1"
 
 Invoke-psake -buildFile default.ps1 `
 			 -framework netcoreapp3.0 `
