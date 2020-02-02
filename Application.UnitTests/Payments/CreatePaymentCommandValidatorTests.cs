@@ -1,4 +1,5 @@
 using Application.Features.Payments.Commands.CreatePayment;
+using FluentValidation;
 using FluentValidation.TestHelper;
 using Xunit;
 
@@ -48,9 +49,21 @@ namespace Application.UnitTests.Payments
             validator.ShouldNotHaveValidationErrorFor(x => x.CardNumber, "1111222233334444");
             validator.ShouldNotHaveValidationErrorFor(x => x.CardNumber, "1111-2222-3333-4444");
         }
-        
+
         [Fact]
-        public void Cvv_ShouldThreeDigitNumber()
+        public void ExpiryYearMonthString_ShouldBeInRightFormat()
+        {
+            validator.ShouldHaveValidationErrorFor(x => x.ExpiryYearMonthString, "lo/lo");
+            validator.ShouldHaveValidationErrorFor(x => x.ExpiryYearMonthString, "13/00");
+            validator.ShouldHaveValidationErrorFor(x => x.ExpiryYearMonthString, "1220");
+            validator.ShouldHaveValidationErrorFor(x => x.ExpiryYearMonthString, "00/00");
+            
+            validator.ShouldNotHaveValidationErrorFor(x => x.ExpiryYearMonthString, "01/00");
+            validator.ShouldNotHaveValidationErrorFor(x => x.ExpiryYearMonthString, "12/99");
+        }
+
+        [Fact]
+        public void Cvv_ShouldBeThreeDigitNumber()
         {
             validator.ShouldHaveValidationErrorFor(x => x.Cvv, "abc");
             validator.ShouldHaveValidationErrorFor(x => x.Cvv, "1bc");
@@ -59,6 +72,26 @@ namespace Application.UnitTests.Payments
             validator.ShouldHaveValidationErrorFor(x => x.Cvv, "");
 
             validator.ShouldNotHaveValidationErrorFor(x => x.Cvv, "123");
+        }
+
+        [Fact]
+        public void Amount_ShouldBeGreaterThanZero()
+        {
+            validator.ShouldHaveValidationErrorFor(x => x.Amount, 0);
+            validator.ShouldHaveValidationErrorFor(x => x.Amount, -1);
+            
+            validator.ShouldNotHaveValidationErrorFor(x => x.Amount, 1);
+        }
+
+        [Fact]
+        public void Currency_ShouldBeOneOfTheAvailable()
+        {
+            validator.ShouldHaveValidationErrorFor(x => x.Currency, "WON");
+            validator.ShouldHaveValidationErrorFor(x => x.Currency, "Yen");
+            
+            validator.ShouldNotHaveValidationErrorFor(x => x.Currency, "Usd");
+            validator.ShouldNotHaveValidationErrorFor(x => x.Currency, "GBP");
+            validator.ShouldNotHaveValidationErrorFor(x => x.Currency, "eur");
         }
     }
 }

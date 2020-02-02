@@ -67,7 +67,7 @@ Looking at arrows indicating the use of interfaces, nothing in Application knows
 | Api     | Payment gateway API      | Application, Bank, Common, Infrastructure, Persistence |
 | Infrastructure | Has MachineDateTime implementation of IDateTime from Common project     | Application, Common |
 | Bank | Collection of bank clients. Bank simulator mocks a bank for the sake of test | Application |
-| DbMigration | Control database schema explicitly / Run by a build script | - |
+| DbMigration | Control database schema explicitly usnig FluentMigrator / Run by a build script | - |
 | IdentityServer | Issue a bearer token to secure API | - |
 | Persistence | Operate CRUD on database | Application |
 | Application | Wrap up Domain to keep it isolated / Source of interfaces | Common, Domain |
