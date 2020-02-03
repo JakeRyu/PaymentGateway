@@ -1,6 +1,6 @@
 using System;
 
-namespace Application.UnitTests.Common
+namespace TestCommon
 {
     public static class Constants
     {

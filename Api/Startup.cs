@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Api.Common;
 using Api.Extensions;
 using Application;
@@ -42,7 +43,7 @@ namespace Api
 
             // Validation
             services.AddControllers().AddFluentValidation(config =>
-                config.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
+                config.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.IsDynamic))
             );
 
             // Authentication to use IdentityServer

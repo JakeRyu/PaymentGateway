@@ -5,10 +5,10 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Features.Payments.Commands.CreatePayment;
-using Application.UnitTests.Common;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Shouldly;
+using TestCommon;
 using Xunit;
 
 namespace Application.UnitTests.Payments

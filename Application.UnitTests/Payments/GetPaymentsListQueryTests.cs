@@ -2,9 +2,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Application.Features.Payments.Queries.GetPaymentsList;
-using Application.UnitTests.Common;
 using AutoMapper;
 using Shouldly;
+using TestCommon;
 using Xunit;
 
 namespace Application.UnitTests.Payments

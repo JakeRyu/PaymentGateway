@@ -1,10 +1,10 @@
 using System;
 using Application.Common.Mappings;
 using AutoMapper;
-using Persistence;
+using TestCommon;
 using Xunit;
 
-namespace Application.UnitTests.Common
+namespace Persistence.IntegrationTests
 {
     public class TestFixture : IDisposable
     {

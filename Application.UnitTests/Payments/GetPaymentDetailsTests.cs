@@ -5,11 +5,11 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Features.Payments.Queries.GetPaymentDetails;
 using Application.Features.Payments.Queries.GetPaymentsList;
-using Application.UnitTests.Common;
 using AutoMapper;
 using Microsoft.Extensions.Localization;
 using Shouldly;
 using Xunit;
+using TestCommon;
 
 namespace Application.UnitTests.Payments
 {

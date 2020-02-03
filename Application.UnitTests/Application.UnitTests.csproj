@@ -19,6 +19,7 @@
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Bank\Bank.csproj" />
       <ProjectReference Include="..\Persistence\Persistence.csproj" />
+      <ProjectReference Include="..\TestCommon\TestCommon.csproj" />
     </ItemGroup>
 
 </Project>

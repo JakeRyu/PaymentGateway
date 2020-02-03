@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Persistence.IntegrationTests.Commont;
 using Shouldly;
 using Xunit;
 

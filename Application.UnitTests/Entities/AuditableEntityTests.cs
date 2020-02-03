@@ -1,8 +1,8 @@
 using System.Threading;
 using Application.Common.Interfaces;
-using Application.UnitTests.Common;
 using Domain.Entities;
 using Shouldly;
+using TestCommon;
 using Xunit;
 
 namespace Application.UnitTests.Entities
