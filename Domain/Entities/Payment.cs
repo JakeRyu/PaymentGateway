@@ -29,5 +29,12 @@ namespace Domain.Entities
             Cvv = cvv;
             Money = new Money(amount, currency);
         }
+
+        // This is one of possible scenarios, not from requirements.
+        // To demonstrate LastModifiedOn property is updated accordingly. 
+        public void UpdateCardHolderName(string cardHolderName)
+        {
+            CardHolderName = cardHolderName;
+        }
     }
 }
