@@ -15,7 +15,7 @@ namespace Application.Features.Payments.Commands.CreatePayment
             {
                 if (string.IsNullOrEmpty(str)) return false;
                 
-                var regex = new Regex(@"\b[0-1][0-2]/[0-9]{2}\b");
+                var regex = new Regex(@"\b[0-1][0-9]/[0-9]{2}\b");
                 if (regex.IsMatch(str))
                 {
                     var month = int.Parse(str.Substring(0, 2));

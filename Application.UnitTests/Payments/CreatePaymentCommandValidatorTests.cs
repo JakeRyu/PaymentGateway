@@ -60,6 +60,7 @@ namespace Application.UnitTests.Payments
             
             validator.ShouldNotHaveValidationErrorFor(x => x.ExpiryYearMonthString, "01/00");
             validator.ShouldNotHaveValidationErrorFor(x => x.ExpiryYearMonthString, "12/99");
+            validator.ShouldNotHaveValidationErrorFor(x => x.ExpiryYearMonthString, "05/20");
         }
 
         [Fact]

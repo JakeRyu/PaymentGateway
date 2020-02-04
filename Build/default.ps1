@@ -41,7 +41,7 @@ task Test -depends Migrate `
     -requiredVariable solutionFile `
 { 
     Exec {
-            dotnet test $solutionFile --no-build
+            dotnet test $solutionFile "/p:Configuration=$buildConfiguration;Platform=$buildPlatform" --no-build
     }   
   	Write-Host "All tests passed"
 }
