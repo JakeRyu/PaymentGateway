@@ -52,6 +52,6 @@ task Api -depends Test `
 {
     Write-Host "Running API..."
     Exec {
-        dotnet run --no-build --project $apiProject
+        dotnet run --no-build --project $apiProject --configuration $buildConfiguration
     }
 }

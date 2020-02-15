@@ -1,22 +1,75 @@
-# How to run Payment Gateway
+# Payment Gateway
 
-### Payment Gateway Set-up
-The target framework is netcoreapp3.0. To run the solution,  download and install .NET Core SDK v3.0.0 or later at https://dotnet.microsoft.com/download/dotnet-core/3.0
+E-Commerce is experiencing exponential growth and merchants who sell their goods or services online need a way to easily collect money from their customers.
+The payment gateway will need to provide merchants with a way to process a payment. To do this, the merchant should be able to submit a request 
+to the payment gateway. A payment request should include appropriate fields such as the card number, expiry month/date, amount, currency, and cvv.
 
-PowerShell is required to run a build script which compiles the solution, migrate the database, and run tests.
+![payment gateway](Documents/payment-gateway.png)
 
-1. Clone or download the solution.
-2. Open a PowerShell with admin privilege. Go to the solution root folder and execute `./build.ps1`. This complies the solution, migrates database and run tests.
-4. Open a terminal (or command) window and change directory to Api root folder. Execute `dotnet run` command.
-5. Change directory to IdentityServer and execute `dotnet run` command.
-5. Visit https://localhost:5001.
+### Development Scope
 
-[todo] install psake..  --> create build project
+Build an API that allows a merchant to process a payment through the payment gateway, and to retrieve details of a previously made payment.
 
+### How to run
+The target framework is netcoreapp3.0. To run the solution, download and install .NET Core SDK v3.0.0 or later at https://dotnet.microsoft.com/download/dotnet-core/3.0
+PowerShell is also required.
+ 
+ Open PowerShell as administrator as writing permission is needed for a local database and logging. For MacOS, run 
+ ```
+ sudo pwsh
+ ```
+ 
+ Change directory to `Build` and run 
+ ```
+ ./build.ps1
+ ``` 
+ 
+ It invokes,
+ 
+ 1. Build the entire solution
+ 2. Migrate database
+ 3. Run test projects
+ 4. If the tests pass, run API
+ 
+The API is listening on http://localhost:5000, https://localhost:5001
+ 
 Note: If run into a permission error like "Can't write to SQLite ...", make sure the terminal is run as Admin privilege.
 
-### Give it a go
-Use sample request 
+### Give it a try
+The API are up and running if you have run the PowerShell script `build.ps1`. The script does not necessarily run the API but running tests before launching API is the idea.
+
+Once API Swagger is loaded, we need a bearer token, otherwise we get 401 Unauthorised error. To do so, we need to launch IdentityServer to get a token.
+
+- Open a new terminal window. Change director to `IdentityServer` and run
+```
+dotnet run
+``` 
+
+- Open a new terminal window. Change directory to `ApiClient` and run
+```
+dotnet run
+``` 
+
+![bearer token](Documents/token.png)
+
+Copy the value of access_token and put it in Swagger. Hit Authorize button on the top right in Swagger.
+
+Enter the value copied with 'Bearer ' in front. Make sure the Bearer and the token are separated by space as below.
+
+![authorise](Documents/authorise.png) 
+
+Hit Authorise button to close the dialog.
+
+Let's post a payment request. Note that card number, `1111222233334444` is only accepted. Try other number to see if it returns `Bad Request` error.
+
+![post payment](Documents/post-payment.png)
+
+Finally, we can see the list of payment. Provide the merchant number that was used on posting.
+
+![post payment](Documents/get-payment.png)
+![post payment](Documents/response.png)
+
+Note that the card number has been masked for security.
 
 # Dependency rules in the architecture
 The model of the solution is based on Clean Architecture and CQRS. 
@@ -74,4 +127,34 @@ Looking at arrows indicating the use of interfaces, nothing in Application knows
 | Domain | Entity, value object, exception defined at enterprise level | Common |
 | Common | Cross cutting concerns like date time service, logging, etc | - |
 
+# What makes a good application
+
+### Application logging
+Serilog is a choice of logging here. For the test purpose it logs in a file but adding another sink for test and production
+environment. It's extremely useful to use a centralised logging. Using a correlation id such as user id to group sequential processes helps track a user journey.
+The log files are found in `Logs` directory under the solution root.
+
+MediatR handles all requests and manages the request pipeline. We can log all requests and its performance via MediatR. Refer Application > Common > Behaviors.
+
+### Application metrics
+
+### Containerisation
+
+### Authentication
+
+IdentityServer 4
+
+### API Client
+
+### Build script / CI
+
+PSake
+
+### Performance testing
+
+### Encryption
+
+### Data Storage
+
+SQLite
 

@@ -69,7 +69,7 @@ namespace ApiClient
             // call api
             var client = new HttpClient();
 
-            var response = await client.GetAsync("https://localhost:5001/payments/1");
+            var response = await client.GetAsync("https://localhost:5001/payments/merchants/1");
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);

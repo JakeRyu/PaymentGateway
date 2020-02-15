@@ -13,7 +13,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    // [Authorize]
+    [Authorize]
     public class PaymentsController : ControllerBase
     {
         private static readonly ILogger _logger = Log.Logger;
