@@ -118,13 +118,13 @@ Looking at arrows indicating the use of interfaces, nothing in Application knows
 | ------------- |-------------|-------------|
 | ApiClient     | A test tool to demonstrate how to get a bearer token form IdentityServer and use it to call API | - |
 | Api     | Payment gateway API      | Application, Bank, Common, Infrastructure, Persistence |
-| Infrastructure | Has MachineDateTime implementation of IDateTime from Common project     | Application, Common |
+| Infrastructure | Contains MachineDateTime implementation of IDateTime from Common project. Contains API client, file system, email/sms, system clock    | Application, Common |
 | Bank | Collection of bank clients. Bank simulator mocks a bank for the sake of test | Application |
 | DbMigration | Control database schema explicitly usnig FluentMigrator / Run by a build script | - |
 | IdentityServer | Issue a bearer token to secure API | - |
-| Persistence | Operate CRUD on database | Application |
-| Application | Wrap up Domain to keep it isolated / Source of interfaces | Common, Domain |
-| Domain | Entity, value object, exception defined at enterprise level | Common |
+| Persistence | Operate CRUD on database. Contains DbContext, configurations, seeding | Application |
+| Application | Contain interfaces, models, logic, commands / queries, validators, exceptions | Common, Domain |
+| Domain | Contain entity, value object, enum, exception, logic | Common |
 | Common | Cross cutting concerns like date time service, logging, etc | - |
 
 # What makes a good application
