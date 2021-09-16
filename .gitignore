@@ -15,6 +15,9 @@
 **/.idea/**/dataSources.local.xml
 **/.idea/**/sqlDataSources.xml
 **/.idea/**/dynamic.xml
+**/.idea/**/indexLayout.xml
+**/.idea/**/projectSettingsUpdater.xml
+.idea/
 
 # Rider
 # Rider auto-generates .iml files, and contentModel.xml
